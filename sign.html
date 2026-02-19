@@ -1,0 +1,68 @@
+
+<head>
+    <title>Sign-Up Nigga</title>
+    <style>
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateX(-300px); } /* start invisible and slightly up */
+            100% { opacity: 1; transform: translateY(0); }   /* fully visible at normal position */
+        }
+        body{
+            font-family: Arial;
+            background: url("uwp4981789.jpeg") no-repeat center center fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;   /* makes it full screen */
+            background-attachment: fixed; /* optional: makes it stay when scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        .container {
+            width: 95%;
+            max-width: 400px;
+            padding: 20px;
+            background: rgba(41, 40, 40, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* correct box-shadow syntax */
+            box-sizing: border-box; /* makes padding included in width */
+            text-align: center; /* centers text inside container */
+            /* animation properties */
+            animation: fadeIn 1s ease-in-out; /* name duration easing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; color: white; font-size: 32px;">SIGN-UP</h1>
+        <h2 style="text-align:center"></h2>
+        <form method="POST">
+        
+        <input type="text" name="Username" placeholder="Enter your Username" id="txtuser" required>
+        <br>
+        <input type="password" name="password" placeholder="Enter your Password" id="txtpass" required>
+        <br><br><br>
+        <input type="submit" value="SUBMIT" placeholder="Enter" id="enter">
+        <br>
+        <input type="reset" value="CANCEL" placeholder="Cancel" id="cancel">
+        <br>
+        <a href="design.html" style="
+            background-color: rgba(8, 4, 247, 0.137);
+            color: white;       /* text color */
+            font-size: 18px;      /* font size */
+            font-weight: Arial;    /* bold text */
+            text-decoration: none; /* remove underline */">
+            Create your Account Here.
+        </a>
+        </form>
+    </div>
+</body>
+</html>

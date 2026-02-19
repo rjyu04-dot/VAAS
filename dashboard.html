@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Metadata about the document -->
+    <meta charset="UTF-8"> <!-- character encoding for proper text display -->
+    <title>Circle Landing Page</title> <!-- title of the page -->
+
+    <style>
+        /* ===================== Reset & Base Styles ===================== */
+        * {
+            margin: 0; /* Remove default margin for all elements */
+            padding: 0; /* Remove default padding for all elements */
+            box-sizing: border-box; /* Makes width and height include padding/border */
+            font-family: 'Arial', sans-serif; /* Default font for all text */
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #7AC7D5, #F0E5DE); /* gradient background */
+            height: 100vh; /* full height of the viewport */
+            display: flex; /* use flexbox layout */
+            flex-direction: column; /* arrange children vertically */
+        }
+
+        /* ===================== Navbar ===================== */
+        nav {
+            display: flex; /* flex container for navbar */
+            justify-content: space-between; /* space between logo and links */
+            align-items: center; /* vertically center items */
+            padding: 20px 50px; /* space around navbar items */
+        }
+
+        nav .logo {
+            font-weight: bold; /* make text bold */
+            font-size: 24px; /* size of logo text */
+            color: white; /* logo color */
+        }
+
+        nav ul {
+            list-style: none; /* remove default bullets */
+            display: flex; /* horizontal layout for menu items */
+            gap: 30px; /* spacing between menu items */
+        }
+
+        nav ul li a {
+            text-decoration: none; /* remove underline from links */
+            color: white; /* link color */
+            font-weight: 500; /* medium font weight */
+        }
+
+        nav .signin-btn {
+            background-color: white; /* button background */
+            color: #333; /* button text color */
+            padding: 8px 20px; /* button padding */
+            border-radius: 25px; /* rounded button */
+            text-decoration: none; /* remove underline */
+            font-weight: bold; /* bold text */
+        }
+
+        /* ===================== Hero Section ===================== */
+        .hero {
+            flex: 1; /* take remaining vertical space */
+            display: flex; /* horizontal layout */
+            align-items: center; /* vertical alignment */
+            justify-content: space-around; /* spacing between text and image */
+            padding: 0 50px; /* horizontal padding */
+        }
+
+        .hero-text {
+            max-width: 500px; /* limit text width */
+            color: white; /* text color */
+        }
+
+        .hero-text h1 {
+            font-size: 48px; /* large heading */
+            margin-bottom: 20px; /* spacing below heading */
+        }
+
+        .hero-text p {
+            font-size: 18px; /* paragraph font size */
+            margin-bottom: 30px; /* spacing below paragraph */
+        }
+
+        .hero-text .btn {
+            background-color: #F2C2A9; /* button background */
+            color: #333; /* button text color */
+            padding: 12px 30px; /* button padding */
+            border-radius: 25px; /* rounded button */
+            text-decoration: none; /* remove underline */
+            font-weight: bold; /* bold text */
+            transition: all 0.3s; /* smooth hover effect */
+        }
+
+        .hero-text .btn:hover {
+            background-color: #eabf9f; /* change color on hover */
+        }
+
+        .hero-img img {
+            max-width: 400px; /* image will shrink if too big */
+            height: auto; /* maintain aspect ratio */
+        }
+
+        /* ===================== Responsive Styles ===================== */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column-reverse; /* stack text below image */
+                text-align: center; /* center align text */
+                gap: 30px; /* spacing between text and image */
+            }
+
+            nav {
+                padding: 20px 30px; /* reduce navbar padding */
+            }
+
+            .hero-text h1 {
+                font-size: 36px; /* smaller heading on small screens */
+            }
+
+            .hero-text p {
+                font-size: 16px; /* smaller paragraph */
+            }
+
+            .hero-img img {
+                max-width: 300px; /* smaller image */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Form wrapper (not necessary for navbar, usually used for input forms) -->
+    <form method="POST">
+        <!-- ===================== Navbar ===================== -->
+        <nav>
+            <div class="logo">Vehicle Accident Alert System</div> <!-- site logo -->
+
+            <!-- Navigation links -->
+            <ul>
+                <li><a href="#">ABOUT US</a></li>
+                <li><a href="#">NIGGER</a></li> <!-- This is highly offensive; change to something appropriate -->
+                <li><a href="#">COURSES</a></li>
+                <li><a href="#">REVIEWS</a></li>
+            </ul>
+
+            <!-- Login button -->
+            <a href="design.html" class="signin-btn">LOG IN</a>
+        </nav>
+    </form>
+
+    <!-- ===================== Hero Section ===================== -->
+    <section class="hero">
+        <!-- Left side: text -->
+        <div class="hero-text">
+            <h1>Your reliable access to safety drive is here</h1>
+            <p>Start your journey with us.</p>
+            <a href="sign.html" class="btn">START FOR FREE</a>
+        </div>
+
+        <!-- Right side: image -->
+        <div class="hero-img">
+            <img src="3244682-removebg-preview.png" alt="Illustration">
+        </div>
+    </section>
+</body>
+</html>
