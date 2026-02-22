@@ -1,23 +1,33 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Vehicle Accident</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
     <style>
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-300px); } /* start invisible and slightly up */
-            100% { opacity: 1; transform: translateY(0); }   /* fully visible at normal position */
+            0% { opacity: 0; transform: translateY(-300px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        body{
+        body {
             font-family: Arial;
             background: url("uwp4981786.jpeg") no-repeat center center fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;   /* makes it full screen */
-            background-attachment: fixed; /* optional: makes it stay when scrolling */
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+        }
+        .container {
+            width: 95%;
+            max-width: 400px;
+            padding: 20px;
+            background: rgba(128, 128, 128, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
         }
         .container input {
             width: 100%;
@@ -26,43 +36,58 @@
             border: none;
             border-radius: 5px;
         }
-        .container {
-            width: 95%;
-            max-width: 400px;
-            padding: 20px;
-            background: rgba(128, 128, 128, 0.3);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* correct box-shadow syntax */
-            box-sizing: border-box; /* makes padding included in width */
-            text-align: center; /* centers text inside container */
-            /* animation properties */
-            animation: fadeIn 1s ease-in-out; /* name duration easing */
+        .container a {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: rgba(8, 4, 247, 0.137);
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 style="text-align: center; color: white; font-size: 32px;">LOG-IN</h1>
-        <h2 style="text-align:center"></h2>
-        <form method="POST">
-        
-        <input type="text" name="Username" placeholder="Enter your Username" id="txtuser" required>
-        <br>
-        <input type="password" name="password" placeholder="Enter your Password" id="txtpass" required>
-        <br><br><br>
-        <input type="submit" value="SUBMIT" placeholder="Enter" id="enter">
-        <br>
-        <input type="reset" value="CANCEL" placeholder="Cancel" id="cancel">
-        <br><br>
-        <a href="sign.html" style="
-            background-color: rgba(8, 4, 247, 0.137);
-            color: white;       /* text color */
-            font-size: 18px;      /* font size */
-            font-weight: Arial;    /* bold text */
-            text-decoration: none; /* remove underline */">
-            Create your Account Here.
-        </a>
+        <h1 style="color: white; font-size: 32px;">LOG-IN</h1>
+        <form id="loginForm">
+            <input type="text" name="Username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="SUBMIT">
+            <input type="reset" value="CANCEL">
         </form>
+        <a href="sign.html">Create a new account</a>
     </div>
+
+  <script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    Username: e.target.Username.value.trim(),
+    password: e.target.password.value.trim()
+  };
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+
+    // Show server message (login success or fail)
+    alert(result.message);
+
+    if (result.success) window.location.href = 'dashboard.html';
+
+  } catch (err) {
+    console.error('Unexpected error:', err);
+    alert('Unexpected error connecting to the server. Please try again.');
+  }
+});
+</script>
 </body>
 </html>

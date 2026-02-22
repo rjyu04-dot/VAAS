@@ -1,23 +1,33 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Sign-Up</title>
     <style>
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateX(-300px); } /* start invisible and slightly up */
-            100% { opacity: 1; transform: translateY(0); }   /* fully visible at normal position */
+            0% { opacity: 0; transform: translateX(-300px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        body{
+        body {
             font-family: Arial;
             background: url("uwp4981789.jpeg") no-repeat center center fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;   /* makes it full screen */
-            background-attachment: fixed; /* optional: makes it stay when scrolling */
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+        }
+        .container {
+            width: 95%;
+            max-width: 400px;
+            padding: 20px;
+            background: rgba(41, 40, 40, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
         }
         .container input {
             width: 100%;
@@ -26,80 +36,68 @@
             border: none;
             border-radius: 5px;
         }
-        .container {
-            width: 95%;
-            max-width: 400px;
-            padding: 20px;
-            background: rgba(41, 40, 40, 0.3);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* correct box-shadow syntax */
-            box-sizing: border-box; /* makes padding included in width */
-            text-align: center; /* centers text inside container */
-            /* animation properties */
-            animation: fadeIn 1s ease-in-out; /* name duration easing */
+        .container a {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: rgba(8, 4, 247, 0.137);
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 style="text-align: center; color: white; font-size: 32px;">SIGN-UP</h1>
-        <h2 style="text-align:center"></h2>
-        <form method="POST">
-        
-        <input type="text" name="fn" placeholder="Enter your Full Name" id="txtfn" required>
-        <br>
-        <input type="text" name="cn" placeholder="Enter your Contact Number" id="txtcn" required>
-        <br>
-        <input type="text" name="email" placeholder="Enter your Email Address" id="txtemail" required>
-        <br>
-        <input type="text" name="Username" placeholder="Enter your Username" id="txtfn" required>
-        <br>
-        <input type="password" name="password" placeholder="Enter your Password" id="txtpass" required>
-        <br><br><br>
-        <input type="submit" value="SUBMIT" placeholder="Enter" id="enter">
-        <br>
-        <input type="reset" value="CANCEL" placeholder="Cancel" id="cancel">
-        <br><br>
-        <a href="index.html" style="
-            background-color: rgba(8, 4, 247, 0.137);
-            color: white;       /* text color */
-            font-size: 18px;      /* font size */
-            font-weight: Arial;    /* bold text */
-            text-decoration: none; /* remove underline */">
-            Create your Account Here.
-        </a>
+        <h1 style="color: white; font-size: 32px;">SIGN-UP</h1>
+        <form id="signupForm">
+            <input type="text" name="fn" placeholder="Full Name" required>
+            <input type="text" name="cn" placeholder="Contact Number" required>
+            <input type="text" name="email" placeholder="Email Address" required>
+            <input type="text" name="Username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="SUBMIT">
+            <input type="reset" value="CANCEL">
         </form>
+        <a href="index.html">Already have an account? Login Here</a>
     </div>
+
+   <script>
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = {
+    fn: e.target.fn.value.trim(),
+    cn: e.target.cn.value.trim(),
+    email: e.target.email.value.trim(),
+    Username: e.target.Username.value.trim(),
+    password: e.target.password.value.trim()
+  };
+
+  try {
+    // Use relative path so it works when served via Node
+    const response = await fetch('/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    // Parse JSON even if response status is 4xx or 5xx
+    const result = await response.json();
+
+    // Show server message instead of generic error
+    alert(result.message);
+
+    // Redirect only if success
+    if (result.success) window.location.href = 'index.html';
+
+  } catch (err) {
+    // Only log unexpected fetch/network errors
+    console.error('Unexpected error:', err);
+    alert('Unexpected error connecting to the server. Please try again.');
+  }
+});
+</script>
 </body>
 </html>
-
-<script>
-    // Example credentials (for demo purposes)
-    const validUsers = [
-        { username: "testuser", password: "1234" },
-        { username: "admin", password: "admin" }
-    ];
-
-    // Get the form element
-    const form = document.querySelector("form");
-
-    form.addEventListener("submit", function(e) {
-        e.preventDefault(); // Prevent form from submitting normally
-
-        // Get user inputs
-        const username = document.querySelector('input[name="Username"]').value;
-        const password = document.querySelector('input[name="password"]').value;
-
-        // Check if user exists in validUsers
-        const user = validUsers.find(u => u.username === username && u.password === password);
-
-        if (user) {
-            // Correct credentials → redirect to index.html
-            alert("Login successful! Redirecting...");
-            window.location.href = "dashboard.html";
-        } else {
-            // Wrong credentials → show alert
-            alert("Invalid username or password. Please try again.");
-        }
-    });
-</script>
