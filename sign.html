@@ -59,7 +59,7 @@
         <input type="submit" value="SUBMIT" placeholder="Enter" id="enter">
         <br>
         <input type="reset" value="CANCEL" placeholder="Cancel" id="cancel">
-        <br>
+        <br><br>
         <a href="index.html" style="
             background-color: rgba(8, 4, 247, 0.137);
             color: white;       /* text color */
@@ -72,3 +72,34 @@
     </div>
 </body>
 </html>
+
+<script>
+    // Example credentials (for demo purposes)
+    const validUsers = [
+        { username: "testuser", password: "1234" },
+        { username: "admin", password: "admin" }
+    ];
+
+    // Get the form element
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault(); // Prevent form from submitting normally
+
+        // Get user inputs
+        const username = document.querySelector('input[name="Username"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+
+        // Check if user exists in validUsers
+        const user = validUsers.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            // Correct credentials → redirect to index.html
+            alert("Login successful! Redirecting...");
+            window.location.href = "dashboard.html";
+        } else {
+            // Wrong credentials → show alert
+            alert("Invalid username or password. Please try again.");
+        }
+    });
+</script>
