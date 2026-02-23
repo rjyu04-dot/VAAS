@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add New User</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
+
+body {
+    background: linear-gradient(to bottom right, #7AC7D5, #F0E5DE);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===================== Navbar ===================== */
+nav {
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    padding:20px 50px;
+    color:white;
+    background: rgba(0,0,0,0.2);
+}
+
+nav .logo { font-weight:bold; font-size:24px; }
+nav ul { list-style:none; display:flex; gap:30px; }
+nav ul li a { text-decoration:none; color:white; font-weight:500; }
+nav .signout-btn {
+    background:white; color:#333; padding:8px 20px; border-radius:25px; text-decoration:none; font-weight:bold;
+}
+
+/* ===================== Form Section ===================== */
+.container {
+    width: 95%;
+    max-width: 500px;
+    margin: 50px auto;
+    background: rgba(255,255,255,0.15);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+    color:white;
+}
+
+.container h1 { font-size:32px; margin-bottom:20px; }
+
+.container input {
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:none;
+    border-radius:5px;
+}
+
+.container input[type="submit"] {
+    cursor:pointer;
+    font-weight:bold;
+    background:#F2C2A9;
+    color:#333;
+    transition: all 0.3s;
+}
+
+.container input[type="submit"]:hover {
+    background:#eabf9f;
+}
+
+.container a {
+    display:inline-block;
+    margin-top:10px;
+    background-color: rgba(8,4,247,0.137);
+    color:white;
+    font-size:18px;
+    text-decoration:none;
+    padding:5px 10px;
+    border-radius:5px;
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <div class="logo">Vehicle Accident Alert System</div>
+    <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="#">ABOUT US</a></li>
+        <li><a href="#">REVIEWS</a></li>
+    </ul>
+    <a href="index.html" class="signout-btn" id="signout-btn">LOG OUT</a>
+</nav>
+
+<!-- Form Container -->
+<div class="container">
+    <h1>Add New User</h1>
+    <form id="regsForm">
+        <input type="text" id="license" placeholder="License No:" required>
+        <input type="text" id="full_name" placeholder="Full Name" required>
+        <input type="text" id="location" placeholder="Location" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="submit" value="Add User">
+    </form>
+</div>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const supabaseClient = supabase.createClient(
+  "https://qfbnqzkfibvqqodohdkq.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmYm5xemtmaWJ2cXFvZG9oZGtxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE3NjAzNjksImV4cCI6MjA4NzMzNjM2OX0.PueBvyIVntROUi36LGEGNR3_Y3fEvI30kcBnuSIn59o"
+);
+
+// Logout
+document.getElementById("signout-btn").addEventListener("click", async () => {
+    alert("Thank you for using.");
+    await supabaseClient.auth.signOut();
+    localStorage.removeItem("user_id");
+    window.location.href = "index.html";
+});
+
+// Form submission
+document.getElementById("regsForm").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const license = document.getElementById("license").value;
+    const full_name = document.getElementById("full_name").value;
+    const location = document.getElementById("location").value;
+    const email = document.getElementById("email").value;
+    const username = document.getElementById("username").value;
+
+    // Check for existing username/email
+    const { data: existing, error: checkError } = await supabaseClient
+        .from("profiles")
+        .select("username,email")
+        .or(`username.eq.${username},email.eq.${email}`)
+        .limit(1);
+
+    if (checkError) {
+        alert(checkError.message);
+        return;
+    }
+
+    if (existing.length > 0) {
+        alert("Username or Email already exists!");
+        return;
+    }
+
+    // Insert new user
+    const { error } = await supabaseClient.from("profiles").insert([
+        { license_no: license, full_name, location, email, username }
+    ]);
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    alert("User added successfully!");
+    document.getElementById("regsForm").reset();
+});
+</script>
+
+</body>
+</html>
