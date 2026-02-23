@@ -128,17 +128,42 @@ th { background-color:#7AC7D5; color:white; }
 </table>
 
 <!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const supabaseClient = supabase.createClient(
   "https://qfbnqzkfibvqqodohdkq.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmYm5xemtmaWJ2cXFvZG9oZGtxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE3NjAzNjksImV4cCI6MjA4NzMzNjM2OX0.PueBvyIVntROUi36LGEGNR3_Y3fEvI30kcBnuSIn59o"
 );
 
-supabaseClient.auth.getSession().then(({ data }) => {
-    if (!data.session) {
+async function loadProfile() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
         window.location.href = "index.html";
+        return;
     }
+
+    const userId = session.user.id;
+
+    const { data: profile, error } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    document.getElementById("welcome").innerText = "Welcome, " + profile.username;
+}
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    window.location.href = "index.html";
 });
+
+loadProfile();
 </script>
 
 </body>

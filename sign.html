@@ -76,20 +76,34 @@ const supabaseClient = supabase.createClient(
 document.getElementById("signupForm").addEventListener("submit", async e => {
     e.preventDefault();
 
+    const fn = document.getElementById("fn").value;
+    const cn = document.getElementById("cn").value;
+    const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const { data, error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-    });
+    // Step 1: Create Auth user
+    const { data, error } = await supabaseClient.auth.signUp({ email, password });
 
     if (error) {
         alert(error.message);
-    } else {
-        alert("Signup successful! You can now login.");
-        window.location.href = "index.html";
+        return;
     }
+
+    const user = data.user;
+
+    // Step 2: Insert profile
+    const { error: profileError } = await supabaseClient.from("profiles").insert([
+        { id: user.id, full_name: fn, contact_number: cn, username: username }
+    ]);
+
+    if (profileError) {
+        alert(profileError.message);
+        return;
+    }
+
+    alert("Signup successful! You can now login.");
+    window.location.href = "index.html";
 });
 </script>
 </body>
