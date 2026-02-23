@@ -1,75 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <style>
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-300px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        body {
-            font-family: Arial;
-            background: url("uwp4981786.jpeg") no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .container {
-            width: 95%;
-            max-width: 400px;
-            padding: 20px;
-            background: rgba(128, 128, 128, 0.3);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            box-sizing: border-box;
-            text-align: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-        }
-        .container a {
-            display: inline-block;
-            margin-top: 10px;
-            background-color: rgba(8, 4, 247, 0.137);
-            color: white;
-            font-size: 18px;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Login</title>
+<style>
+body { font-family: Arial; background: url("uwp4981786.jpeg") no-repeat center center fixed; background-size: cover; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+.container { width: 95%; max-width: 400px; padding: 20px; background: rgba(128,128,128,0.3); border-radius:10px; text-align:center;}
+.container input { width:100%; padding:10px; margin:10px 0; border-radius:5px; border:none;}
+.container a { display:inline-block; margin-top:10px; background-color: rgba(8,4,247,0.137); color:white; text-decoration:none; padding:5px 10px; border-radius:5px;}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1 style="color: white; font-size: 32px;">LOG-IN</h1>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <input type="submit" value="SUBMIT">
-            <input type="reset" value="CANCEL">
-        </form>
-        <a href="sign.html">Create a new account</a>
-    </div>
+<div class="container">
+<h1 style="color:white;">LOG-IN</h1>
+<form id="loginForm">
+<input type="text" id="username" placeholder="Username" required>
+<input type="password" id="password" placeholder="Password" required>
+<input type="submit" value="SUBMIT">
+<input type="reset" value="CANCEL">
+</form>
+<a href="sign.html">Create a new account</a>
+</div>
 
-    <!-- Supabase CDN -->
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-    const supabase = supabase.createClient(
-    "https://qfbnqzkfibvqqodohdkq.supabase.co",
-    "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
-    );
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabase = supabase.createClient(
+  "https://qfbnqzkfibvqqodohdkq.supabase.co",
+  "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
+);
 
 document.getElementById("loginForm").addEventListener("submit", async (e)=>{
     e.preventDefault();
+
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
