@@ -82,21 +82,25 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    // Check for duplicate username
+    // Check for duplicate username or email
     const { data: existing, error: checkError } = await supabase
         .from("users")
-        .select("username")
-        .eq("username", username)
+        .select("username, email")
+        .or(`username.eq.${username},email.eq.${email}`)
         .limit(1);
 
     if (checkError) {
         console.error(checkError);
-        alert("Error checking username");
+        alert("Error checking username/email");
         return;
     }
 
     if (existing.length > 0) {
-        alert("Username already exists!");
+        if (existing[0].username === username) {
+            alert("Username already exists!");
+        } else if (existing[0].email === email) {
+            alert("Email already exists!");
+        }
         return;
     }
 
