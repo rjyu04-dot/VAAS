@@ -61,38 +61,34 @@
     </div>
 
     <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-    const supabaseClient = supabase.createClient(
-      "https://qfbnqzkfibvqqodohdkq.supabase.co",
-      "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
+    const supabase = supabase.createClient(
+    "https://qfbnqzkfibvqqodohdkq.supabase.co",
+    "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
     );
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+document.getElementById("loginForm").addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      const { data: user, error } = await supabaseClient
+    const { data: user, error } = await supabase
         .from("users")
         .select("*")
         .eq("username", username)
         .eq("password", password);
 
-      if (error) {
+    if(error){
         console.error(error);
         alert("Login failed");
-        return;
-      }
-
-      if (user.length > 0) {
+    } else if(user.length > 0){
         alert("Login successful!");
         window.location.href = "dashboard.html";
-      } else {
+    } else {
         alert("Invalid username or password");
-      }
-    });
-    </script>
+    }
+});
+</script>
 </body>
 </html>
