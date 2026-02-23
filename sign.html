@@ -74,7 +74,7 @@ const supabaseClient = supabase.createClient(
 );
 
 document.getElementById("signupForm").addEventListener("submit", async e => {
-    e.preventDefault(); // stop default form submission
+    e.preventDefault();
 
     const fn = document.getElementById("fn").value;
     const cn = document.getElementById("cn").value;
@@ -82,26 +82,35 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    // Check for duplicate username or email
-    const { data: existing, error: checkError } = await supabaseClient
-        .from("users")
-        .select("username, email")
-        .or(`username.eq.${username},email.eq.${email}`)
+    // Check for duplicate username
+    const { data: usernameExists, error: uErr } = await supabaseClient
+        .from('users')
+        .select('username')
+        .eq('username', username)
         .limit(1);
 
-    if (checkError) {
-        console.error(checkError);
+    // Check for duplicate email
+    const { data: emailExists, error: eErr } = await supabaseClient
+        .from('users')
+        .select('email')
+        .eq('email', email)
+        .limit(1);
+
+    if (uErr || eErr) {
+        console.error(uErr || eErr);
         alert("Error checking username/email");
         window.location.reload();
         return;
     }
 
-    if (existing.length > 0) {
-        if (existing[0].username === username) {
-            alert("Username already exists!");
-        } else if (existing[0].email === email) {
-            alert("Email already exists!");
-        }
+    if (usernameExists.length > 0) {
+        alert("Username already exists!");
+        window.location.reload();
+        return;
+    }
+
+    if (emailExists.length > 0) {
+        alert("Email already exists!");
         window.location.reload();
         return;
     }
