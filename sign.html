@@ -64,38 +64,39 @@
     </div>
 
    <script>
-document.getElementById('signupForm').addEventListener('submit', async (e) => {
+const supabase = window.supabase.createClient(
+  "https://qfbnqzkfibvqqodohdkq.supabase.co",
+  "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
+);
+
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = {
-    fn: e.target.fn.value.trim(),
-    cn: e.target.cn.value.trim(),
-    email: e.target.email.value.trim(),
-    Username: e.target.Username.value.trim(),
-    password: e.target.password.value.trim()
-  };
+  const { data: existing } = await supabase
+    .from("users")
+    .select("*")
+    .eq("username", username.value);
 
-  try {
-    // Use relative path so it works when served via Node
-    const response = await fetch('/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
+  if (existing.length > 0) {
+    alert("Username already exists");
+    return;
+  }
 
-    // Parse JSON even if response status is 4xx or 5xx
-    const result = await response.json();
+  const { error } = await supabase.from("users").insert([
+    {
+      full_name: fn.value,
+      contact_number: cn.value,
+      email: email.value,
+      username: username.value,
+      password: password.value
+    }
+  ]);
 
-    // Show server message instead of generic error
-    alert(result.message);
-
-    // Redirect only if success
-    if (result.success) window.location.href = 'index.html';
-
-  } catch (err) {
-    // Only log unexpected fetch/network errors
-    console.error('Unexpected error:', err);
-    alert('Unexpected error connecting to the server. Please try again.');
+  if (error) {
+    alert("Error signing up");
+  } else {
+    alert("Sign up successful!");
+    window.location.href = "index.html";
   }
 });
 </script>
