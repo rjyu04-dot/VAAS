@@ -66,9 +66,9 @@ body {
     <a href="index.html">Already have an account? Login Here</a>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-const supabaseClient = Supabase.createClient(
+const supabaseClient = supabase.createClient(
   "https://qfbnqzkfibvqqodohdkq.supabase.co",
   "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
 );
@@ -92,7 +92,7 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     if (checkError) {
         console.error(checkError);
         alert("Error checking username/email");
-        window.location.reload(); // refresh on error
+        window.location.reload();
         return;
     }
 
@@ -102,7 +102,7 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
         } else if (existing[0].email === email) {
             alert("Email already exists!");
         }
-        window.location.reload(); // refresh after duplicate alert
+        window.location.reload();
         return;
     }
 
@@ -120,10 +120,10 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     if (error) {
         console.error(error);
         alert("Signup failed");
-        window.location.reload(); // refresh on insert error
+        window.location.reload();
     } else {
         alert("Signup successful!");
-        window.location.href = "index.html"; // go to login page
+        window.location.href = "index.html";
     }
 });
 </script>
