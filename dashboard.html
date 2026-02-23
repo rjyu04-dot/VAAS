@@ -155,7 +155,7 @@ async function loadProfile() {
     document.getElementById("welcomeText").innerText = `Hello, ${profile.full_name} (Username: ${profile.username})`;
 }
 
-document.getElementById("logoutBtn").addEventListener("click", async () => {
+document.getElementById("signout-btn").addEventListener("click", async () => {
     await supabaseClient.auth.signOut();
     localStorage.removeItem("user_id");
     window.location.href = "index.html";
