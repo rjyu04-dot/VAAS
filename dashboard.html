@@ -136,16 +136,13 @@ const supabaseClient = supabase.createClient(
 );
 
 async function loadProfile() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session) {
+    const userId = localStorage.getItem("user_id");
+    if (!userId) {
         window.location.href = "index.html";
         return;
     }
 
-    const userId = session.user.id;
-
-    const { data: profile, error } = await supabaseClient
-        .from("profiles")
+    const { data: profile, error } = await supabaseClient.from("profiles")
         .select("*")
         .eq("id", userId)
         .single();
@@ -155,11 +152,12 @@ async function loadProfile() {
         return;
     }
 
-    document.getElementById("welcome").innerText = "Welcome, " + profile.username;
+    document.getElementById("welcomeText").innerText = `Hello, ${profile.full_name} (Username: ${profile.username})`;
 }
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
     await supabaseClient.auth.signOut();
+    localStorage.removeItem("user_id");
     window.location.href = "index.html";
 });
 
