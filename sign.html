@@ -68,14 +68,13 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const { createClient } = supabase;
-const supabaseClient = createClient(
+const supabaseClient = Supabase.createClient(
   "https://qfbnqzkfibvqqodohdkq.supabase.co",
   "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
 );
 
 document.getElementById("signupForm").addEventListener("submit", async e => {
-    e.preventDefault(); // prevent refresh
+    e.preventDefault(); // stop refresh
 
     const fn = document.getElementById("fn").value;
     const cn = document.getElementById("cn").value;
