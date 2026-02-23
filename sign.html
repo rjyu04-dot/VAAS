@@ -52,19 +52,20 @@
     <div class="container">
         <h1 style="color: white; font-size: 32px;">SIGN-UP</h1>
         <form id="signupForm">
-            <input type="text" name="fn" placeholder="Full Name" required>
-            <input type="text" name="cn" placeholder="Contact Number" required>
-            <input type="text" name="email" placeholder="Email Address" required>
-            <input type="text" name="Username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" id="fn" placeholder="Full Name" required>
+            <input type="text" id="cn" placeholder="Contact Number" required>
+            <input type="text" id="email" placeholder="Email Address" required>
+            <input type="text" id="Username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
             <input type="submit" value="SUBMIT">
             <input type="reset" value="CANCEL">
         </form>
         <a href="index.html">Already have an account? Login Here</a>
     </div>
 
-   <script>
-const supabase = window.supabase.createClient(
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient = supabase.createClient(
   "https://qfbnqzkfibvqqodohdkq.supabase.co",
   "sb_publishable_5iqwo3kLms7Y9HuTIDwbwA_j1TENl8x"
 );
@@ -72,30 +73,29 @@ const supabase = window.supabase.createClient(
 document.getElementById("signupForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const { data: existing } = await supabase
+  const fn = document.getElementById("fn").value;
+  const cn = document.getElementById("cn").value;
+  const email = document.getElementById("email").value;
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabaseClient
     .from("users")
-    .select("*")
-    .eq("username", username.value);
-
-  if (existing.length > 0) {
-    alert("Username already exists");
-    return;
-  }
-
-  const { error } = await supabase.from("users").insert([
-    {
-      full_name: fn.value,
-      contact_number: cn.value,
-      email: email.value,
-      username: username.value,
-      password: password.value
-    }
-  ]);
+    .insert([
+      {
+        full_name: fn,
+        contact_number: cn,
+        email: email,
+        username: username,
+        password: password
+      }
+    ]);
 
   if (error) {
-    alert("Error signing up");
+    console.log(error);
+    alert("Signup failed");
   } else {
-    alert("Sign up successful!");
+    alert("Signup successful!");
     window.location.href = "index.html";
   }
 });
