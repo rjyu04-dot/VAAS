@@ -74,7 +74,7 @@ const supabaseClient = Supabase.createClient(
 );
 
 document.getElementById("signupForm").addEventListener("submit", async e => {
-    e.preventDefault(); // stop refresh
+    e.preventDefault(); // stop default form submission
 
     const fn = document.getElementById("fn").value;
     const cn = document.getElementById("cn").value;
@@ -92,6 +92,7 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     if (checkError) {
         console.error(checkError);
         alert("Error checking username/email");
+        window.location.reload(); // refresh on error
         return;
     }
 
@@ -101,6 +102,7 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
         } else if (existing[0].email === email) {
             alert("Email already exists!");
         }
+        window.location.reload(); // refresh after duplicate alert
         return;
     }
 
@@ -118,9 +120,10 @@ document.getElementById("signupForm").addEventListener("submit", async e => {
     if (error) {
         console.error(error);
         alert("Signup failed");
+        window.location.reload(); // refresh on insert error
     } else {
         alert("Signup successful!");
-        window.location.href = "index.html";
+        window.location.href = "index.html"; // go to login page
     }
 });
 </script>
