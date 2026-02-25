@@ -85,9 +85,9 @@ document.getElementById("loginForm").addEventListener("submit", async e => {
 
     // Save user ID in localStorage for dashboard
     localStorage.setItem("user_id", data.user.id);
-
-    alert("Login successful!");
+    
     window.location.href = "dashboard.html";
+    alert("Login successful!");
 });
 </script>
 </body>
